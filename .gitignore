@@ -3,3 +3,10 @@
 ################################################################################
 
 /.vs/API
+/.vscode
+/API/obj
+/API/bin/Debug/net5.0
+/Core/obj
+/Core/bin/Debug/net5.0
+/Infrastructure/obj
+/Infrastructure/bin/Debug/net5.0
