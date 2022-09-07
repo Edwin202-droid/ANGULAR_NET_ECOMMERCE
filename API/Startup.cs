@@ -1,3 +1,5 @@
+using API.Helpers;
+using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.Repository;
@@ -35,6 +37,9 @@ namespace API
                 x.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+
 
             services.AddSwaggerGen(c =>
             {
@@ -55,6 +60,9 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            //usar wwwroot como ruta estatica
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
