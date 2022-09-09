@@ -10,10 +10,31 @@ namespace Core.Specifications
     public class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product>
     {
         //Traer todos los productos con su tipo y marca
-        public ProductsWithTypesAndBrandsSpecification()
+        public ProductsWithTypesAndBrandsSpecification(ProductSpecParams productParams) 
+        : base(x => 
+        (string.IsNullOrEmpty(productParams.Search) || x.Name.ToLower().Contains(productParams.Search)) &&
+        (!productParams.BrandId.HasValue || x.ProductBrandId == productParams.BrandId) 
+        && 
+        (!productParams.TypeId.HasValue || x.ProductTypeId == productParams.TypeId))
         {
             AddInclude(x => x.ProductType);
             AddInclude(x => x.ProductBrand);
+            AddOrderBy(x => x.Name);
+            ApplyPaging(productParams.PageSize * (productParams.PageIndex - 1), productParams.PageSize);
+            
+            //Parametros para el ordenamiento
+            if(!string.IsNullOrWhiteSpace(productParams.Sort))
+            {
+                switch(productParams.Sort)
+                {
+                    case "priceAsc" : AddOrderBy(p => p.Price);
+                    break;
+                    case "priceDesc" : AddOrderByDescending(P => P.Price);
+                    break;
+                    default: AddOrderBy(p => p.Name);
+                    break;
+                }
+            }
         }
 
         //Traer producto por id con su tipo y marca
