@@ -7,14 +7,14 @@
             </select>
             <h5 class="text-warning ml-3">Marcas</h5>
             <ul class="list-group my-3">
-                <li class="list-group-item" [class.active]="marca.id === marcaSeleccionadaId"
+                <li class="list-group-item" [class.active]="marca.id === shopParams.marcaId"
                     *ngFor="let marca of marcas" [value]="marca.id" (click)="onMarcaSelected(marca.id)">
                     {{marca.name}}
                 </li>
             </ul>
             <h5 class="text-warning ml-3">Tipos</h5>
             <ul class="list-group my-3">
-                <li class="list-group-item" [class.active]="tipo.id === tipoSeleccionadaId" *ngFor="let tipo of tipos"
+                <li class="list-group-item" [class.active]="tipo.id === shopParams.tipoId" *ngFor="let tipo of tipos"
                     [value]="tipo.id" (click)="onTipoSelected(tipo.id)">
                     {{tipo.name}}
                 </li>
@@ -23,13 +23,17 @@
 
         <section class="col-9">
             <div class="d-flex justify-content-between align-items-center pb-2">
-                <header>
-                    <span>Mostrando <strong>10</strong> of <strong>16</strong> productos</span>
-                </header>
+                
+                <app-paging-header 
+                    [totalCount]="totalCount"
+                    [pageSize]="shopParams.pageSize"
+                    [pageNumber]="shopParams.pageNumber">
+                </app-paging-header>
+
                 <div class="form-inline  mt-2">
-                    <input class="form-control mr-2" placeholder="Buscar..." type="text">
-                    <button class="btn btn-outline-primary my-2">Buscar</button>
-                    <button class="btn btn-outline-success my-2 ml-2">Reset</button>
+                    <input (keyup.enter)="onSearch()" class="form-control mr-2" #search placeholder="Buscar..." type="text">
+                    <button class="btn btn-outline-primary my-2" (click)="onSearch()">Buscar</button>
+                    <button class="btn btn-outline-success my-2 ml-2" (click)="onReset()">Reset</button>
                 </div>
             </div>
 
@@ -38,6 +42,16 @@
                     <app-product [product]="item"></app-product>
                 </div>
             </div>
+            <div *ngIf="totalCount && totalCount > 0" class="d-flex justify-content-center mt-2">
+                <app-pager
+                    [pageSize]="shopParams.pageSize"
+                    [pageNumber]="shopParams.pageNumber"
+                    [totalCount]="totalCount"
+                    (pageChanged)="onPageChanged($event)">
+                </app-pager>
+            </div>
+
+
         </section>
     </div>
 </div>

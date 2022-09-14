@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { delay, map } from 'rxjs';
 import { Marca } from '../shared/models/marca';
 import { Pagination } from '../shared/models/pagination';
+import { ShopParams } from '../shared/models/shopParams';
 import { Tipo } from '../shared/models/tipo';
 
 @Injectable({
@@ -10,33 +11,39 @@ import { Tipo } from '../shared/models/tipo';
 })
 export class ShopService {
   baseUrl = 'https://localhost:5001/api/';
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getProducts(marcaId?:number, tipoId?:number, sort?:string){
+  getProducts(shopParams: ShopParams) {
     let params = new HttpParams();
-    if(marcaId){
-      params = params.append('brandId',marcaId.toString())
+    if (shopParams.marcaId !== 0) {
+      params = params.append('brandId', shopParams.marcaId.toString())
     }
-    if(tipoId){
-      params = params.append('typeId',tipoId.toString())
-    }
-
-    if(sort){
-      params = params.append('sort',sort);
+    if (shopParams.tipoId !== 0) {
+      params = params.append('typeId', shopParams.tipoId.toString())
     }
 
-    return this.http.get<Pagination>(this.baseUrl+'Products', {observe:'response', params})
+    if(shopParams.search){
+      params = params.append('search', shopParams.search);
+    }
+
+    params = params.append('sort', shopParams.sort);
+    params = params.append('pageIndex', shopParams.pageNumber.toString());
+    params = params.append('pageIndex', shopParams.pageSize.toString());
+
+
+
+    return this.http.get<Pagination>(this.baseUrl + 'Products', { observe: 'response', params })
       .pipe(
-        map(response =>{
+        map(response => {
           return response.body;
         })
       );
   }
 
-  getMarcas(){
-    return this.http.get<Marca[]>(this.baseUrl+'Products/brands');
+  getMarcas() {
+    return this.http.get<Marca[]>(this.baseUrl + 'Products/brands');
   }
-  getTipos(){
-    return this.http.get<Tipo[]>(this.baseUrl+'Products/types');
+  getTipos() {
+    return this.http.get<Tipo[]>(this.baseUrl + 'Products/types');
   }
 }
