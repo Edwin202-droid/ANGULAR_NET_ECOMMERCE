@@ -8,7 +8,8 @@ import { CoreModule } from './core/core.module';
 import { ShopModule } from './shop/shop.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeModule } from './home/home.module';
-
+import { HTTP_INTERCEPTORS} from '@angular/common/http'
+import { InterceptorsInterceptor } from './core/interceptors/interceptors.interceptor';
 @NgModule({
   declarations: [
     AppComponent
@@ -21,7 +22,9 @@ import { HomeModule } from './home/home.module';
     NgbModule,
     HomeModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: InterceptorsInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
