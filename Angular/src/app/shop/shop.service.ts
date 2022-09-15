@@ -5,6 +5,7 @@ import { Marca } from '../shared/models/marca';
 import { Pagination } from '../shared/models/pagination';
 import { ShopParams } from '../shared/models/shopParams';
 import { Tipo } from '../shared/models/tipo';
+import { Product } from '../shared/models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,10 @@ export class ShopService {
           return response.body;
         })
       );
+  }
+
+  getProduct(id:number){
+    return this.http.get<Product>(this.baseUrl+'Products/'+id);
   }
 
   getMarcas() {
