@@ -12,7 +12,7 @@ import { ShopParams } from '../shared/models/shopParams';
 })
 export class ShopComponent implements OnInit {
 
-  @ViewChild('search',{static:true}) searchTerm !: ElementRef;
+  @ViewChild('search',{static:false}) searchTerm !: ElementRef;
   products: Product[]=[];
   marcas:Marca[]=[];
   tipos:Tipo[]=[];
@@ -34,8 +34,6 @@ export class ShopComponent implements OnInit {
 
   getProducts(){
     this.shopService.getProducts(this.shopParams).subscribe(response =>{
-      console.log(response);
-      
       this.products = response?.data || []
       this.shopParams.pageNumber = response?.pageIndex || 0;
       this.shopParams.pageSize = response?.pageSize || 0;

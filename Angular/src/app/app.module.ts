@@ -10,6 +10,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeModule } from './home/home.module';
 import { HTTP_INTERCEPTORS} from '@angular/common/http'
 import { InterceptorsInterceptor } from './core/interceptors/interceptors.interceptor';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 @NgModule({
   declarations: [
     AppComponent
@@ -20,10 +22,13 @@ import { InterceptorsInterceptor } from './core/interceptors/interceptors.interc
     HttpClientModule,
     CoreModule,
     NgbModule,
-    HomeModule
+    HomeModule,
+    NgxSpinnerModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: InterceptorsInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: InterceptorsInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+
   ],
   bootstrap: [AppComponent]
 })
