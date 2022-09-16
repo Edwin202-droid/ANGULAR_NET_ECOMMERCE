@@ -16,11 +16,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace API
 {
     public class Startup
@@ -38,6 +38,12 @@ namespace API
             services.AddControllers();
             services.AddDbContext<StoreContext>(x =>
                 x.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSingleton<ConnectionMultiplexer>(c => {
+                var config = ConfigurationOptions.Parse(_configuration.GetConnectionString("Redis"),
+                true);
+                return ConnectionMultiplexer.Connect(config);
+            });  
 
             services.AddAutoMapper(typeof(MappingProfile));
 
