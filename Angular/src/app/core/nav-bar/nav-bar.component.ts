@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CarritoService } from '../../carrito/carrito.service';
+import { Observable } from 'rxjs';
+import { ICarrito } from '../../shared/models/carrito';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavBarComponent implements OnInit {
 
-  constructor() { }
+  carrito$!: Observable<ICarrito>;
+
+  constructor(private carritoService:CarritoService) { }
 
   ngOnInit(): void {
+    this.carrito$ = this.carritoService.carrito$;
   }
 
 }

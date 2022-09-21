@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { TestErrorComponent } from './core/test-error/test-error.component';
 import { ServerErrorComponent } from './core/server-error/server-error.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
+import { CarritoModule } from './carrito/carrito.module';
 
 const routes: Routes = [
   {
@@ -30,6 +31,16 @@ const routes: Routes = [
     path: 'shop',
     loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule),
     data: {breadcrumb: 'Tienda'}
+  },
+  {
+    path: 'carrito',
+    loadChildren: () => import('./carrito/carrito.module').then(m => m.CarritoModule),
+    data: {breadcrumb: 'Carrito'}
+  },
+  {
+    path: 'pago',
+    loadChildren: () => import('./pasarela/pasarela.module').then(m => m.PasarelaModule),
+    data: {breadcrumb: 'Proceso de pago'}
   },
   {
     path: '**',

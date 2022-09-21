@@ -1,0 +1,20 @@
+<div class="bg-light px-4 py-3 text-uppercase font-weight-bold">
+    Detalles de la Orden
+</div>
+<div class="p-4">
+    <p class="font-italic mb-4">El costo del envío depende de las cantidades de la orden</p>
+    <ul class="list-unstyled mb-4" *ngIf="(carritoTotal$ | async) as totales">
+        <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Subtotal de la orden</strong>
+            <strong>{{totales.subtotal | currency}}</strong>
+        </li>
+        <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Envío y manejo</strong>
+            <strong>{{totales.envio | currency}}</strong>
+        </li>
+        <li class="d-flex justify-content-between py-3 border-bottom">
+            <strong class="text-muted">Total</strong>
+            <strong>{{totales.total | currency}}</strong>
+        </li>
+    </ul>
+</div>

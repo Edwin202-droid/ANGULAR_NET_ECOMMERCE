@@ -14,9 +14,11 @@
         </li>
       </ul>
       <div class="d-flex">
-        <a class="position-relative">
+        <a class="position-relative" routerLink="/carrito">
             <i class="fa fa-shopping-cart fa-2x text-dark" style="margin-right: 20px;"></i>
-            <div class="cart-no">5</div>
+            <div *ngIf="(carrito$ | async) as carrito" class="cart-no">
+              {{carrito.items.length}}
+            </div>
         </a>
 
         <a class="btn btn-outline-secondary" type="submit">Login</a>
