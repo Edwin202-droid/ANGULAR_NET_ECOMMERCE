@@ -6,6 +6,7 @@ using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.Repository;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,6 +39,10 @@ namespace API
             services.AddControllers();
             services.AddDbContext<StoreContext>(x =>
                 x.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
+            
+            services.AddDbContext<AppIdentityDbContext>(x => 
+                x.UseSqlite(_configuration.GetConnectionString("IdentityConnection"))
+            );
 
             services.AddSingleton<IConnectionMultiplexer>(c => {
                 var config = ConfigurationOptions.Parse(_configuration.GetConnectionString("Redis"),
@@ -49,6 +54,8 @@ namespace API
 
             //Limpiando startup, extension
             services.AddApplicationServices();
+            //Identity
+            services.AddIdentityServices(_configuration);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -89,6 +96,7 @@ namespace API
             //usar wwwroot como ruta estatica
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
