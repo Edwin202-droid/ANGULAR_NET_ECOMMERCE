@@ -20,8 +20,31 @@
               {{carrito.items.length}}
             </div>
         </a>
+        
+        <ng-container *ngIf="(user$ | async) === null">
+          <a routerLink="/auth/login" class="btn btn-outline-secondary" type="submit">Login</a>
+        <a routerLink="/auth/registro" class="btn btn-outline-secondary" type="submit">Registro</a>
+        </ng-container>
 
-        <a class="btn btn-outline-secondary" type="submit">Login</a>
+        <ng-container *ngIf="(user$ | async)">
+          <div class="dropdown" style="margin-right: 5px; margin-left: 3px;" ngbDropdown>
+            <a class="dropdown-toggle" style="cursor: pointer;" ngbDropdownToggle>
+              <strong>Bienvenido {{(user$ | async)?.displayName}}</strong>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" style="cursor: pointer;" ngbDropdownMenu>
+              <a routerLink="/carrito" class="dropdown-item d-flex align-items-center py-2">
+                <i class="fa fa-shopping-cart" style="margin-right: 3px">Ver Carrito</i>
+              </a>
+              <a routerLink="/orders" class="dropdown-item d-flex align-items-center py-2">
+                <i class="fa fa-history" style="margin-right: 3px">Ver ordenes</i>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a (click)="logOut()" class="dropdown-item d-flex align-items-center py-2">
+                <i class="fa fa-sign-out" style="margin-right: 3px">Salir</i>
+              </a>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </div>
   </nav>

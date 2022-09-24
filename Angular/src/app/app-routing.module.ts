@@ -5,6 +5,7 @@ import { TestErrorComponent } from './core/test-error/test-error.component';
 import { ServerErrorComponent } from './core/server-error/server-error.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { CarritoModule } from './carrito/carrito.module';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -39,8 +40,14 @@ const routes: Routes = [
   },
   {
     path: 'pago',
+    canActivate : [AuthGuard],
     loadChildren: () => import('./pasarela/pasarela.module').then(m => m.PasarelaModule),
     data: {breadcrumb: 'Proceso de pago'}
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
+    data: {breadcrumb:  {skip: true}}
   },
   {
     path: '**',
