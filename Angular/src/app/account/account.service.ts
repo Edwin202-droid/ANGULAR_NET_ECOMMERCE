@@ -50,13 +50,13 @@ export class AccountService {
   }
 
   cargarUsuario(token:string){
-    if(token === null){
+    if(token === ''){
       this.currentUserSource.next(null as unknown as IUser);
       return of();
     }
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
-    return this.http.get(this.baseUrl + 'cuenta' + {headers}).pipe(
+    return this.http.get(this.baseUrl + 'cuenta/', {headers}).pipe(
       map((user:any) =>{
         if(user){
           localStorage.setItem('token', user.token);

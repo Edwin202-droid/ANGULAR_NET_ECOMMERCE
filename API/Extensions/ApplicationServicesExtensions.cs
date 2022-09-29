@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Errors;
 using Core.Interfaces;
+using Infrastructure;
 using Infrastructure.Data.Repository;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,8 @@ namespace API.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICarritoRepository, CarritoRepository>();
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
