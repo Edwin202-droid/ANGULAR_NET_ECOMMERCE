@@ -1,0 +1,39 @@
+<div class="mt-4" [formGroup]="checkOutForm">
+    <div class="d-flex justify-content-between align-items-center">
+        <h4>Shipping Address</h4>
+        <button class="btn btn-outline-success mb-3" 
+        (click)="saveUserAddress()"
+        [disabled]="!checkOutForm.get('addressForm')?.valid || !checkOutForm.get('addressForm')?.dirty">
+            Save as default address
+        </button>
+    </div>
+    <div class="row" formGroupName="addressForm">
+        <div class="form-group col-sm-6">
+            <app-text-input [label]="'Nombres'" formControlName="nombres"></app-text-input>
+        </div>
+        <div class="form-group col-sm-6">
+            <app-text-input [label]="'Apellidos'" formControlName="apellidos"></app-text-input>
+        </div>
+        <div class="form-group col-sm-6">
+            <app-text-input [label]="'Direccion'" formControlName="direccion"></app-text-input>
+        </div>
+        <div class="form-group col-sm-6">
+            <app-text-input [label]="'Ciudad'" formControlName="ciudad"></app-text-input>
+        </div>
+        <div class="form-group col-sm-6">
+            <app-text-input [label]="'Estado'" formControlName="estado"></app-text-input>
+        </div>
+        <div class="form-group col-sm-6">
+            <app-text-input [label]="'Codigo Postal'" formControlName="codigoPostal"></app-text-input>
+        </div>
+    </div>
+</div>
+
+<div class="float-none d-flex justify-content-between flex-column flex-lg-row mb-4">
+    <button class="btn btn-outline-primary" routerLink="/carrito">
+        <i class="fa fa-angle-left"></i> Regresar al carrito
+    </button>
+    <button class="btn btn-primary" cdkStepperNext>
+        Ir a Delivery<i class="fa fa-angle-right"></i>
+    </button>
+</div>

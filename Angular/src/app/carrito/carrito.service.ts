@@ -4,6 +4,7 @@ import { ICarrito, ICarritoItem, Carrito, ICarritoTotal } from '../shared/models
 import { BehaviorSubject } from 'rxjs';
 import { map } from "rxjs/operators";
 import { Product } from '../shared/models/product';
+import { IDeliveryMethod } from '../shared/models/deliveryMethod';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,14 @@ export class CarritoService {
   //Para el resumen del pedido
   private carritoTotalSource = new BehaviorSubject(null) as unknown as BehaviorSubject<ICarritoTotal>;
   carritoTotal$ = this.carritoTotalSource.asObservable(); 
+  shipping = 0;
 
   constructor(private http: HttpClient) { }
+
+  setShippinPrice(deliveryMethod: IDeliveryMethod){
+    this.shipping = deliveryMethod.price;
+    this.calcularTotal();
+  }
 
   getCarrito(id:string){
     return this.http.get(this.baseUrl + 'carrito?id='+ id)
@@ -86,7 +93,7 @@ export class CarritoService {
 
   private calcularTotal(){
     const carrito = this.getCurrentCarritoValue();
-    const envio = 0;
+    const envio = this.shipping;
     const subtotal = carrito.items.reduce((a,b) => (b.price * b.cantidad) + a , 0);
     const total = envio + subtotal;
     this.carritoTotalSource.next({
@@ -131,6 +138,12 @@ export class CarritoService {
     }, error =>[
       console.log(error)
     ])
+  }
+
+  eliminarLocalCarrito(id:string){
+    this.carritoSource.next(null as unknown as ICarrito);
+    this.carritoTotalSource.next(null as unknown as ICarritoTotal);
+    localStorage.removeItem('carrito_id');
   }
 
 

@@ -6,7 +6,10 @@ import { PagerComponent } from './components/pager/pager.component';
 import { OrdenTotalesComponent } from './components/orden-totales/orden-totales.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TextInputComponent } from './components/text-input/text-input.component';
-
+import { CdkStepperModule } from "@angular/cdk/stepper";
+import { StepperComponent } from './components/stepper/stepper.component';
+import { CarritoSummaryComponent } from './components/carrito-summary/carrito-summary.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -14,7 +17,9 @@ import { TextInputComponent } from './components/text-input/text-input.component
     PagingHeaderComponent,
     PagerComponent,
     OrdenTotalesComponent,
-    TextInputComponent
+    TextInputComponent,
+    StepperComponent,
+    CarritoSummaryComponent
   ],
   imports: [
     CommonModule,
@@ -22,6 +27,8 @@ import { TextInputComponent } from './components/text-input/text-input.component
     NgbCarouselModule,
     ReactiveFormsModule,
     NgbDropdownModule,
+    CdkStepperModule,
+    RouterModule
   ],
   exports:[
     NgbPaginationModule,
@@ -31,7 +38,10 @@ import { TextInputComponent } from './components/text-input/text-input.component
     OrdenTotalesComponent,
     ReactiveFormsModule,
     NgbDropdownModule,
-    TextInputComponent
+    TextInputComponent,
+    CdkStepperModule,
+    StepperComponent,
+    CarritoSummaryComponent
   ]
 })
 export class SharedModule { }
